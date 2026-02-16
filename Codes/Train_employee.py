@@ -8,15 +8,17 @@ class Train_emp:
             try:
                 line_name = input("Enter line name: ")
 
-                #  بررسی تکراری بودن قبل از گرفتن بقیه اطلاعات
                 for i in self.lines:
                     if i["name"] == line_name:
                         raise ValueError("Name already exists")
 
-                # اگر به اینجا رسید یعنی نام تکراری نیست
                 origin = input("Enter origin: ")
                 destination = input("Enter destination: ")
-                station_number = int(input("Enter the number of stations: "))
+                station_numberr = input("Enter the number of stations: ")
+                if not station_numberr.isdigit():
+                    raise ValueError("Station number must be an integer.")
+                else:
+                    station_number = int(station_numberr)
                 station_list = input("Enter stations' names seperated by space: ").split()
 
                 if station_number != len(station_list):
@@ -44,36 +46,63 @@ class Train_emp:
     def update_info(self):
         while True:
             try:
-                update_choice = input("Enter the line name to update: ")
-                found = False
-    
-                for i in self.lines:
-                    if i["name"] == update_choice:
-                        print(i)
-    
-                        allowed_fields = ("name", "origin", "destattion", "station_number", "station_list")
-    
-                        choice_1 = input("What field do you want to change? ")
-                        if choice_1 != "station_list":
-                            choice_2 = input("Enter the new value: ")
-                            i[choice_1] = choice_2
-                        else:
-                            choice_2 = input("Enter new items, separated by spaces: ").split()
-                            i[choice_1] = choice_2
-    
-                        print("Update successful.")
-                        found = True
+                while True:
+                    update_choice = input("Enter the line name to update (or 0 to return): ")
+                    if update_choice == "0":
+                        return
+                    found_line = None
+                    for line in self.lines:
+                        if line["name"] == update_choice:
+                            found_line = line
+                            break
+                    if found_line is None:
+                        raise ValueError("Line not found. Please try again.")
+                    else:
                         break
-    
-                if not found:
-                    raise ValueError("Line not found.")
-    
+                print("Current data:", found_line)           
+                allowed_fields = ("name", "origin", "destination","station_number", "station_list")
+                while True:
+                    choice_1 = input("What field do you want to change?(Enter 0 to return) ")
+                    if choice_1 == "0":
+                        return
+                    elif choice_1 not in allowed_fields:
+                        raise ValueError("Invalid field name. Please try again.")
+                    else:
+                        break
+
+                if choice_1 == "name":
+                    new_name = input("Enter the new name: ")
+                    for line in self.lines:
+                        if line["name"] == new_name:
+                            raise ValueError("Name already exists.")
+                    found_line["name"] = new_name
+
+                elif choice_1 == "station_number":
+                    while True:
+                        try:
+                            new_number = int(input("Enter new station number: "))
+                            break
+                        except ValueError:
+                            print("Station number must be an integer.")
+                    if new_number != len(found_line["station_list"]):
+                        raise ValueError("Station number must match station list length.")
+                    found_line["station_number"] = new_number
+
+                elif choice_1 == "station_list":
+                    new_list = input(
+                        "Enter new items, separated by spaces: ").split()
+                    found_line["station_list"] = new_list
+                    found_line["station_number"] = len(new_list)
+
+                else:
+                    new_value = input("Enter the new value: ")
+                    found_line[choice_1] = new_value
+
+                print("Successfully updated ✅")
+                break
+
             except ValueError as e:
                 print(e)
-    
-            reeturn_choice = input("Enter *0* to return to the menu: ")
-            if reeturn_choice == "0":
-                return
      
             
     def delete_line(self):
@@ -98,7 +127,7 @@ class Train_emp:
              
     def show_line_list(self):
         for i, line in enumerate(self.lines, start=1):
-            print(f"{i}. {line['name']} | {line['origin']} -> {line['destination']}|Number of stations:{line['station_number']}|stations name:{line['station_list']}")
+            print(f"{i}. {line['name']} | {line['origin']} -> {line['destination']} | Number of stations:{line['station_number']} | stations name:{line['station_list']}")
         reeturn=input("Enter 0 to return: ")
         if reeturn=="0": 
             return
@@ -107,24 +136,23 @@ class Train_emp:
     def add_train(self):
         while True:
             try:
-                train_id=input("please enter train id:")
-                train_name=input("please enter train name:")
-                line=input("please enter move line:")
-                speed=input("please enter speed :")
-                stop=input("please enter stop in estation ")
-                quality =input("please enter quality :")
-                price= input("please enter ticket price")
-                capacity=input("please enter train capacity")
-                
-                train={"train_id":train_id,"train_name":train_name,"line":line,
+                train_id = input("Enter train id: ")
+                train_name = input("Enter train name: ")
+                line = input("Enter train line: ")
+                speed = input("Enter train speed: ")
+                stop = input("Enter stop duration in each station: ")
+                quality = input("Enter train quality: ")
+                price = input("Enter ticket price: ")
+                capacity = input("Enter train capacity: ")
+                train = {"train_id":train_id,"train_name":train_name,"line":line,
                       "speed":speed,"stop":stop,"quality":quality,"price":price,"capacity":capacity}
                 
                 for i in self.trains:
-                    if i["train_id"]==train_id:
-                        raise ValueError("id already exists")
+                    if i["train_id"] == train_id:
+                        raise ValueError("Id already exists")
                 else:
                     self.trains.append(train)
-                    print("train_added")
+                    print("Train added successfully ✅")
             except ValueError as e:
                 print(e)
             reeturn=input("Enter *0* to return / Enter *1* to resume: ")
@@ -155,7 +183,7 @@ class Train_emp:
                         choice_2 = input("Enter the new value: ")
                         i[choice_1] = choice_2
     
-                        print("Update successful.")
+                        print("Successfully updated ✅")
                         found = True
                         break
     
@@ -179,7 +207,7 @@ class Train_emp:
                     if i["train_id"]==delete_choice:
                         self.trains.remove(i)
                         found = True
-                        print("train deleted")
+                        print("Train deleted successfully ✅")
                 if not found:
                     raise ValueError("train not found")
             except ValueError as e:

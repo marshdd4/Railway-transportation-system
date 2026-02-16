@@ -17,4 +17,3 @@ def emp_menu():
         reeturn = input("Enter *0* to return / Enter *1* to try again: ")
         if reeturn=="0":
             return
-                

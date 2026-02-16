@@ -4,7 +4,6 @@ def get_first_menu():
     from start_menu import first_menu
     first_menu()
 
-
 def emp_panel():
     empo = Train_emp()
     while True:   
