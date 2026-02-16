@@ -1,5 +1,6 @@
 from admin_check import admin
 from employee_menu import emp_menu
+from user_menu import usr_menu
 
 def first_menu():
     while True:
@@ -18,9 +19,8 @@ def first_menu():
             emp_menu()
             
         elif choice=="3": 
-            #usr_menu()
-            print("user menu")
-           
+            usr_menu()
+        
         elif choice=="4": 
             print("Bye Bye!")
             break
