@@ -1,4 +1,4 @@
-from user_menu import usr_menu
+#from user_menu import usr_menu
 user_list=[]
 def sign_up():
     
@@ -16,8 +16,9 @@ def sign_up():
                     raise ValueError("email already exists")
             print(" signup sucsess") 
             user_list.append(user)
-            usr_menu()
-            break 
+            return
+            #usr_menu()
+            #break 
         except ValueError as e:
             print(e)
             print("try again")
