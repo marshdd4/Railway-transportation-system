@@ -6,12 +6,15 @@ def emp_menu():
         username = input("Enter your username:")
         password = input("Enter your password:")
         if emp:
+            found = None
             for i in emp:
                 if i["user_name"] == username and i["pass_word"] == password:
                     print("Login Successful!")
                     emp_panel()
                 else:
-                    print("Incorrect username or password")
+                    found = False
+            if not found:
+                print("Incorrect username or password!")
         else:
             print("No employees available!")
         reeturn = input("Enter *0* to return / Enter *1* to try again: ")
