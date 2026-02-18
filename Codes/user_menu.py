@@ -9,13 +9,16 @@ def usr_menu():
         print("2. log in")
         print("3. returu to menu")
     
-        choice=input("please inter your choice(1-3):" )
+        choice=input("please Enter your choice(1-3):" )
     
         if choice=="1":
             sign_up()
     
-        if choice=="2":
+        elif choice=="2":
             log_in()
             
-        if choice=="3": 
+        elif choice=="3": 
             return
+        
+        else:
+            print("Invalid input! Please try again")

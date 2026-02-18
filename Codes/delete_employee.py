@@ -1,6 +1,9 @@
 from add_employee import emp
 
 def del_emp():
+    if not emp:
+        print("No employees available!")
+        return
     while True:
         deluser = input("Enter the *username* to delete the user: ")
 
@@ -15,13 +18,11 @@ def del_emp():
         if not found:
             print("Not found!")
 
-        return_choice = None
-        while return_choice not in ("0", "1"):
-            return_choice = input(
-                "Enter *0* to return / Enter *1* to resume: "
-            )
-            if return_choice not in ("0", "1"):
-                print("invalid input. ONLY 0 or 1")
-
-        if return_choice == "0":
-            return
+        while True:
+            reeturn = input("Enter 0 to return / Enter 1 to try again: ")
+            if reeturn == "0":
+                return
+            elif reeturn == "1":
+                break
+            else:
+                print("Invalid input! Please try again.")

@@ -1,5 +1,5 @@
-from Train_employee import Train_emp
-empo = Train_emp()
+from Train_employee import TrainEmp
+empo = TrainEmp()
 def emp_panel():
     while True:
         print("**welcome to employee menu**")
@@ -41,3 +41,6 @@ def emp_panel():
             
         elif choice=="9": 
             return  
+        
+        else:
+            print("Invalid input! Please try again.")

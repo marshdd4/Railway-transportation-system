@@ -41,13 +41,18 @@ def add_emp():
                 if i["email"] == emp_info["email"]:
                     raise ValueError("Email already exists.")
 
-            print("Employee added successfully!")
+            print("Employee added successfully! ✅")
             emp.append(emp_info)
             return
 
         except ValueError as e:
             print(e)
 
-        reeturn = input("Enter *0* to return / Enter *1* to try again: ")
-        if reeturn == "0":
-            return
+        while True:
+            reeturn = input("Enter 0 to return / Enter 1 to try again: ")
+            if reeturn == "0":
+                return
+            elif reeturn == "1":
+                break
+            else:
+                print("Invalid input! Please try again.")

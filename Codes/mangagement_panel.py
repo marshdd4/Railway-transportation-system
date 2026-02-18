@@ -24,4 +24,4 @@ def mang_pnl():
         elif choice=="4":
             return
         else:
-            print("Invalid choice!")
+            print("Invalid choice! Please try again.")

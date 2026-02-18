@@ -1,4 +1,4 @@
-class Train_emp:
+class TrainEmp:
     def __init__(self):
         self.lines=[]  
         self.trains=[]
@@ -39,9 +39,14 @@ class Train_emp:
             except ValueError as e:
                 print(e)
 
-            choice = input("Enter 0 to return / Enter 1 to resume: ")
-            if choice == "0":
-                return
+            while True:
+                reeturn = input("Enter 0 to return / Enter 1 to add another: ")
+                if reeturn == "0":
+                    return
+                elif reeturn == "1":
+                    break
+                else:
+                    print("Invalid input! Please try again.")
             
                 
     def update_info(self):
@@ -94,7 +99,7 @@ class Train_emp:
 
                 elif choice_1 == "station_list":
                     new_list = input(
-                        "Enter new items, separated by spaces: ").split()
+                        "Enter new stations, separated by spaces: ").split()
                     found_line["station_list"] = new_list
                     found_line["station_number"] = len(new_list)
 
@@ -196,9 +201,14 @@ class Train_emp:
             self.trains.append(train)
             print(f"Train added successfully ✅ (ID: {train_id})")
 
-            return_choice = input("Enter *0* to return / Enter *1* to resume: ")
-            if return_choice == "0":
-                break        
+            while True:
+                reeturn = input("Enter 0 to return / Enter 1 to add another: ")
+                if reeturn == "0":
+                    return
+                elif reeturn == "1":
+                    break
+                else:
+                    print("Invalid input! Please try again.")        
 
     def update_train_info(self):
         if not self.trains:

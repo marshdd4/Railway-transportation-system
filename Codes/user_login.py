@@ -18,17 +18,25 @@ def log_in():
             if not found:
                 raise ValueError("Username or password is wrong")
 
-            print("login success")
-            choice = input("for return enter 0 | for buy panel enter 1: ")
-
-            if choice == "0":
-                return
-            else:
-                buy_menu()
-                return
+            print("login successful ✅")
+            while True:
+                choice = input("Enter 1 to go to buy panel | Enter 0 to return: ")
+                if choice == "0":
+                    return
+                elif choice == "1":
+                    buy_menu()
+                    break
+                else:
+                    print("Invalid input. Please try again.")
 
         except ValueError as e:
             print(e)
-            back = input("try again? (y) | return to menu (0): ")
-            if back == "0":
-                return
+            
+            while True:
+                back = input("try again? (1) | return to menu (0): ")
+                if back == "1":
+                    break
+                elif back == "0":
+                    return
+                else:
+                    print("Invalid input. Please try again.")                

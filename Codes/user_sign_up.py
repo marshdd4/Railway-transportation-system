@@ -14,14 +14,18 @@ def sign_up():
                     raise ValueError("Username already exists")
                 if i["email"]==user["email"]:
                     raise ValueError("email already exists")
-            print(" signup sucsess") 
+            print(" signup successful ✅") 
             user_list.append(user)
             return
             #usr_menu()
             #break 
         except ValueError as e:
             print(e)
-            print("try again")
-        reeturn=input("**wlcome to signup menu**\n""for return  to menu inter *0*\n""for resrum inter *1*")
-        if reeturn=="0":
-            return
+        while True:
+            reeturn=input("Enter 0 to return / Enter 1 to try again: ")
+            if reeturn=="0":
+                return
+            elif reeturn == "1":
+                break
+            else:
+                print("Invalid input. Please try again.")
