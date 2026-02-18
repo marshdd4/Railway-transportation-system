@@ -1,5 +1,6 @@
 import datetime
 import re
+import BANK  # فایل BANK.py باید در کنار این فایل باشد
 
 # --------------------------
 # سعی می‌کنیم train_system رو از فایل دیگه بیاریم
@@ -13,28 +14,14 @@ except ImportError:
 # --------------------------
 
 # --------------------------
-# توابع کمکی (اعتبارسنجی)
+# توابع کمکی
 # --------------------------
 
-def validate_card(card_number, cvv2, expiry, password):
-    """اعتبارسنجی ساده کارت بانکی"""
-    if not (card_number and cvv2 and expiry and password):
-        return False
-    if not card_number.isdigit() or len(card_number) < 16:
-        return False
-    if not cvv2.isdigit() or len(cvv2) != 4:
-        return False
-    if '/' not in expiry or len(expiry.split('/')) != 2:
-        return False
-    return True
-
 def validate_email(email):
-    """اعتبارسنجی ایمیل با regex (پیشرفته)"""
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(pattern, email) is not None
 
 def validate_password(password):
-    """بررسی رمز عبور: حداقل یک حرف، یک عدد و یکی از @ یا &"""
     has_letter = any(c.isalpha() for c in password)
     has_digit = any(c.isdigit() for c in password)
     has_special = any(c in "@&" for c in password)
@@ -43,7 +30,6 @@ def validate_password(password):
     else:
         return False, "Password must contain letters, numbers, and @ or &."
 
-# ذخیره لیست قطارها
 def save_trains_to_file(trains, filename="available_trains.txt"):
     with open(filename, "w", encoding="utf-8") as f:
         f.write("List of available trains:\n")
@@ -58,9 +44,20 @@ def save_trains_to_file(trains, filename="available_trains.txt"):
                 f.write("-" * 30 + "\n")
     print(f"File {filename} saved successfully.")
 
-# شارژ کیف پول
+def display_trains(trains):
+    """نمایش لیست قطارهای موجود در کنسول"""
+    if not trains:
+        print("No trains available.")
+        return
+    print("\n🚆 Available Trains:")
+    print("=" * 70)
+    for train in trains:
+        if train["capacity"] > 0:
+            print(f"ID: {train['train_id']} | Name: {train['train_name']} | Line: {train['line']} | Price: {train['price']} Toman | Capacity: {train['capacity']}")
+    print("=" * 70)
+
 def charge_wallet(user):
-    # اطمینان از وجود کلیدهای ضروری (برای کاربران قدیمی)
+    # اطمینان از وجود کلیدها
     if "wallet" not in user:
         user["wallet"] = 0
     if "cards" not in user:
@@ -74,13 +71,31 @@ def charge_wallet(user):
         print("Please enter a number.")
         return
 
-    print("Enter your card information:")
-    card_num = input("Card number: ")
-    cvv2 = input("CVV2: ")
-    exp = input("Expiry date (e.g., 12/25): ")
-    password = input("Password: ")
+    # انتخاب کارت از لیست یا وارد کردن جدید
+    if user["cards"]:
+        print("Your saved cards:")
+        for idx, card in enumerate(user["cards"], 1):
+            print(f"{idx}. **** **** **** {card[-4:]}")
+        choice = input("Choose a card number (or press Enter to enter new card): ")
+        if choice.isdigit() and 1 <= int(choice) <= len(user["cards"]):
+            card_num = user["cards"][int(choice)-1]
+            print(f"Using card: **** **** **** {card_num[-4:]}")
+            cvv2 = input("CVV2: ")
+            exp = input("Expiry date (e.g., 12/25): ")
+            password = input("Password: ")
+        else:
+            card_num = input("Card number: ")
+            cvv2 = input("CVV2: ")
+            exp = input("Expiry date (e.g., 12/25): ")
+            password = input("Password: ")
+    else:
+        card_num = input("Card number: ")
+        cvv2 = input("CVV2: ")
+        exp = input("Expiry date (e.g., 12/25): ")
+        password = input("Password: ")
 
-    if validate_card(card_num, cvv2, exp, password):
+    # اعتبارسنجی با BANK.py
+    if BANK.validate_card(card_num, cvv2, exp, password):
         user["wallet"] += amount
         if card_num not in user["cards"]:
             user["cards"].append(card_num)
@@ -93,9 +108,8 @@ def charge_wallet(user):
     else:
         print("Invalid card information.")
 
-# خرید بلیط
 def buy_ticket(user, trains):
-    # اطمینان از وجود کلیدهای ضروری (برای کاربران قدیمی)
+    # اطمینان از وجود کلیدها
     if "wallet" not in user:
         user["wallet"] = 0
     if "cards" not in user:
@@ -104,7 +118,9 @@ def buy_ticket(user, trains):
         user["transactions"] = []
 
     while True:
+        display_trains(trains)  # نمایش قطارها
         save_trains_to_file(trains)
+
         train_id = input("Enter train ID (or 'back' to cancel): ")
         if train_id.lower() == "back":
             return
@@ -112,6 +128,10 @@ def buy_ticket(user, trains):
         train = next((t for t in trains if t["train_id"] == train_id), None)
         if not train:
             print("Train not found.")
+            continue
+
+        if train["capacity"] <= 0:
+            print("This train is full.")
             continue
 
         try:
@@ -137,6 +157,7 @@ def buy_ticket(user, trains):
             else:
                 return
 
+        # انجام خرید
         train["capacity"] -= count
         user["wallet"] -= total_cost
 
@@ -166,17 +187,11 @@ def buy_ticket(user, trains):
         if again.lower() != "yes":
             break
 
-# ویرایش اطلاعات کاربر
 def edit_user_info(user):
-    # تلاش برای ایمپورت user_list (برای جلوگیری از circular import)
     try:
         from user_menu import user_list
     except ImportError:
         user_list = []
-
-    # اطمینان از وجود کلیدها (اختیاری)
-    if "transactions" not in user:
-        user["transactions"] = []
 
     print("Your current information:")
     print(f"Name: {user['name']}")
@@ -219,9 +234,7 @@ def edit_user_info(user):
 
     print("Information updated successfully.")
 
-# نمایش تراکنش‌ها (نسخه بهبود یافته)
 def show_transactions(user):
-    # اطمینان از وجود کلید transactions (برای کاربران قدیمی)
     if "transactions" not in user:
         user["transactions"] = []
     
@@ -229,14 +242,12 @@ def show_transactions(user):
         print("📭 No transactions found.")
         return
 
-    # نمایش در کنسول
     print("\n📋 Transaction History:")
     print("=" * 50)
     for idx, t in enumerate(user["transactions"], 1):
         print(f"{idx}. Type: {t['type']} - Amount: {t['amount']} Toman - Time: {t['time']}")
     print("=" * 50)
 
-    # ذخیره در فایل
     filename = f"transactions_{user['user_name']}.txt"
     with open(filename, "w", encoding="utf-8") as f:
         f.write(f"Transactions for user {user['name']}\n")
@@ -245,7 +256,6 @@ def show_transactions(user):
             f.write(f"Type: {t['type']} - Amount: {t['amount']} - Time: {t['time']}\n")
     print(f"💾 Transactions also saved to file: {filename}")
 
-# منوی اصلی خرید
 def buy_menu(user):
     while True:
         print("\n** Buy Menu **")
