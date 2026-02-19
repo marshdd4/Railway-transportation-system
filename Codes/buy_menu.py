@@ -3,12 +3,8 @@ import re
 import BANK  # فایل BANK.py باید در کنار این فایل باشد
 
 # --------------------------
-<<<<<<< HEAD
 # دریافت نمونه سراسری قطارها از ماژول Train_employee
 # در صورت نبود، یک dummy با لیست خالی می‌سازیم
-=======
-# سعی می‌کنیم train_system رو از فایل دیگه بیاریم
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
 try:
     from Train_employee import train_system
 except ImportError:
@@ -19,26 +15,16 @@ except ImportError:
 # --------------------------
 
 # --------------------------
-<<<<<<< HEAD
 # توابع کمکی اعتبارسنجی
 # --------------------------
 
 def validate_email(email):
     """بررسی فرمت ایمیل با regex"""
-=======
-# توابع کمکی
-# --------------------------
-
-def validate_email(email):
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(pattern, email) is not None
 
 def validate_password(password):
-<<<<<<< HEAD
     """بررسی رمز عبور: حداقل یک حرف، یک عدد و یکی از @ یا &"""
-=======
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     has_letter = any(c.isalpha() for c in password)
     has_digit = any(c.isdigit() for c in password)
     has_special = any(c in "@&" for c in password)
@@ -48,10 +34,7 @@ def validate_password(password):
         return False, "Password must contain letters, numbers, and @ or &."
 
 def save_trains_to_file(trains, filename="available_trains.txt"):
-<<<<<<< HEAD
     """ذخیره لیست قطارهای موجود در فایل متنی"""
-=======
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     with open(filename, "w", encoding="utf-8") as f:
         f.write("List of available trains:\n")
         f.write("=" * 50 + "\n")
@@ -78,12 +61,8 @@ def display_trains(trains):
     print("=" * 70)
 
 def charge_wallet(user):
-<<<<<<< HEAD
     """شارژ کیف پول کاربر با اعتبارسنجی کارت بانکی"""
     # اطمینان از وجود کلیدهای مورد نیاز در دیکشنری کاربر
-=======
-    # اطمینان از وجود کلیدها
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     if "wallet" not in user:
         user["wallet"] = 0
     if "cards" not in user:
@@ -97,11 +76,7 @@ def charge_wallet(user):
         print("Please enter a number.")
         return
 
-<<<<<<< HEAD
     # انتخاب کارت از لیست کارت‌های ذخیره شده یا وارد کردن جدید
-=======
-    # انتخاب کارت از لیست یا وارد کردن جدید
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     if user["cards"]:
         print("Your saved cards:")
         for idx, card in enumerate(user["cards"], 1):
@@ -124,11 +99,7 @@ def charge_wallet(user):
         exp = input("Expiry date (e.g., 12/25): ")
         password = input("Password: ")
 
-<<<<<<< HEAD
     # اعتبارسنجی با استفاده از تابع BANK.validate_card
-=======
-    # اعتبارسنجی با BANK.py
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     if BANK.validate_card(card_num, cvv2, exp, password):
         user["wallet"] += amount
         if card_num not in user["cards"]:
@@ -138,19 +109,12 @@ def charge_wallet(user):
             "amount": amount,
             "time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         })
-<<<<<<< HEAD
         print(f"Wallet charged successfully. New balance: {user['wallet']} Toman.")
-=======
-        print("Wallet charged successfully.")
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     else:
         print("Invalid card information.")
 
 def buy_ticket(user, trains):
-<<<<<<< HEAD
     """خرید بلیط از یک قطار مشخص"""
-=======
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     # اطمینان از وجود کلیدها
     if "wallet" not in user:
         user["wallet"] = 0
@@ -167,10 +131,7 @@ def buy_ticket(user, trains):
         if train_id.lower() == "back":
             return
 
-<<<<<<< HEAD
         # پیدا کردن قطار با ID وارد شده
-=======
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
         train = next((t for t in trains if t["train_id"] == train_id), None)
         if not train:
             print("Train not found.")
@@ -195,10 +156,7 @@ def buy_ticket(user, trains):
 
         total_cost = count * int(train["price"])
 
-<<<<<<< HEAD
         # بررسی موجودی کیف پول و در صورت نیاز شارژ
-=======
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
         while user["wallet"] < total_cost:
             print(f"Insufficient balance. (Balance: {user['wallet']} - Cost: {total_cost})")
             choice = input("Do you want to charge? (yes/no): ")
@@ -219,10 +177,7 @@ def buy_ticket(user, trains):
             "time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         })
 
-<<<<<<< HEAD
         # صدور بلیط به صورت فایل متنی
-=======
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
         ticket_filename = f"ticket_{user['user_name']}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
         with open(ticket_filename, "w", encoding="utf-8") as f:
             f.write("***** Train Ticket *****\n")
@@ -236,20 +191,14 @@ def buy_ticket(user, trains):
             f.write("************************\n")
 
         print(f"Purchase successful. Ticket file saved as {ticket_filename}.")
-<<<<<<< HEAD
         print(f"Your new wallet balance: {user['wallet']} Toman.")
-=======
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
 
         again = input("Do you want to buy another ticket? (yes/no): ")
         if again.lower() != "yes":
             break
 
 def edit_user_info(user):
-<<<<<<< HEAD
     """ویرایش اطلاعات کاربر (نام، ایمیل، رمز عبور)"""
-=======
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     try:
         from user_menu import user_list
     except ImportError:
@@ -294,7 +243,6 @@ def edit_user_info(user):
         else:
             print(msg)
 
-<<<<<<< HEAD
     # نمایش اطلاعات به‌روز شده
     print("\n✅ Information updated successfully!")
     print("Your updated information:")
@@ -348,38 +296,6 @@ def buy_menu(user):
         print("1. Buy ticket")
         print("2. Edit info")
         print("3. Wallet (balance & transactions)")  # تغییر نام گزینه
-=======
-    print("Information updated successfully.")
-
-def show_transactions(user):
-    if "transactions" not in user:
-        user["transactions"] = []
-    
-    if not user["transactions"]:
-        print("📭 No transactions found.")
-        return
-
-    print("\n📋 Transaction History:")
-    print("=" * 50)
-    for idx, t in enumerate(user["transactions"], 1):
-        print(f"{idx}. Type: {t['type']} - Amount: {t['amount']} Toman - Time: {t['time']}")
-    print("=" * 50)
-
-    filename = f"transactions_{user['user_name']}.txt"
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(f"Transactions for user {user['name']}\n")
-        f.write("=" * 40 + "\n")
-        for t in user["transactions"]:
-            f.write(f"Type: {t['type']} - Amount: {t['amount']} - Time: {t['time']}\n")
-    print(f"💾 Transactions also saved to file: {filename}")
-
-def buy_menu(user):
-    while True:
-        print("\n** Buy Menu **")
-        print("1. Buy ticket")
-        print("2. Edit info")
-        print("3. Show transactions")
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
         print("4. Exit")
 
         choice = input("Please enter your choice (1-4): ")
@@ -389,11 +305,7 @@ def buy_menu(user):
         elif choice == "2":
             edit_user_info(user)
         elif choice == "3":
-<<<<<<< HEAD
             show_wallet(user)   # فراخوانی تابع جدید
-=======
-            show_transactions(user)
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
         elif choice == "4":
             print("Exiting Buy Menu")
             break

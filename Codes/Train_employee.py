@@ -119,12 +119,9 @@ class TrainEmp:
             delete_choice = input("Enter the line name to delete (or 0 to return): ")
             if delete_choice == "0":
                 return
-<<<<<<< HEAD
-=======
             for train in self.trains:
                 if train["line"] == delete_choice:
                     self.trains.remove(train)
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
             for line in self.lines:
                 if line["name"] == delete_choice:
                     self.lines.remove(line)
@@ -239,11 +236,7 @@ class TrainEmp:
                     else:
                         break
                 print("Current data:")
-<<<<<<< HEAD
                 print(f"Train name: {found_train['train_name']} | Train line: {found_train['line']} | Train speed: {found_train['speed']} km/h\nStop duration in each station: {found_train['stop']} minutes | Train quality: {found_train['quality']} | Ticket price: {found_train['price']}$ | Train capacity: {found_train['capacity']} passengers")
-=======
-                print(f"Train name: {found_train['train_name']} | Train line: {found_train['line']} | Train speed: {found_train['speed']} km/h\nStop duration in each station: {found_train['stop']} minutes | Train quality: {found_train['quality']} | Ticket price: {found_train['price']} Toman | Train capacity: {found_train['capacity']} passengers")
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
                 allowed_fields = ("train_name", "line", "speed", "stop", "quality", "price", "capacity")
                 while True:
                     choice_1 = input("What field do you want to change? (Enter 0 to return) ")
@@ -337,11 +330,7 @@ class TrainEmp:
             return
         print("____________Trains List____________")
         for i, train in enumerate(self.trains, start=1):
-<<<<<<< HEAD
             print(f"Train NO{i}:  Name: {train['train_name']} | Line: {train['line']} | Speed: {train['speed']} km/h\nStop duration in each station: {train['stop']} minutes | Quality: {train['quality']} | Ticket price: {train['price']}$ | Capacity: {train['capacity']} passengers")
-=======
-            print(f"Train NO{i}:  Name: {train['train_name']} | Line: {train['line']} | Speed: {train['speed']} km/h\nStop duration in each station: {train['stop']} minutes | Quality: {train['quality']} | Ticket price: {train['price']} Toman | Capacity: {train['capacity']} passengers")
->>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
         reeturn = input("Enter 0 to return: ")
         if reeturn == "0":
             return
