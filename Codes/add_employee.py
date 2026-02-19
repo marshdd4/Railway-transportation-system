@@ -22,7 +22,7 @@ def validate_username(username):
 # Password Validation
 # ==============================
 def validate_password(password):
-    pattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4}$'
+    pattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6}$'
     return re.fullmatch(pattern, password) is not None
 
 
@@ -53,10 +53,10 @@ def add_emp():
 
     # -------- Password --------
     while True:
-        pass_word = input("Password: ").strip()
+        pass_word = input("Password(ex:123abc): ").strip()
 
         if not validate_password(pass_word):
-            print("Password must be exactly 4 characters and contain letters and numbers.")
+            print("Password must be exactly 6 characters and contain letters and numbers.")
             continue
 
         break   # ✅ فقط اگر پسورد درست بود میره مرحله بعد
