@@ -1,5 +1,0 @@
-Transactions for user sam
-========================================
-Type: charge - Amount: 100000 - Time: 2026-02-18 22:59:46
-Type: purchase - Amount: 24 - Time: 2026-02-18 22:59:46
-Type: purchase - Amount: 120 - Time: 2026-02-18 23:01:36
