@@ -22,7 +22,11 @@ def validate_username(username):
 # Password Validation
 # ==============================
 def validate_password(password):
+<<<<<<< HEAD
     pattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4}$'
+=======
+    pattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6}$'
+>>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
     return re.fullmatch(pattern, password) is not None
 
 
@@ -53,10 +57,17 @@ def add_emp():
 
     # -------- Password --------
     while True:
+<<<<<<< HEAD
         pass_word = input("Password: ").strip()
 
         if not validate_password(pass_word):
             print("Password must be exactly 4 characters and contain letters and numbers.")
+=======
+        pass_word = input("Password(ex:123abc): ").strip()
+
+        if not validate_password(pass_word):
+            print("Password must be exactly 6 characters and contain letters and numbers.")
+>>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
             continue
 
         break   # ✅ فقط اگر پسورد درست بود میره مرحله بعد
@@ -85,4 +96,8 @@ def add_emp():
     }
 
     emp.append(emp_info)
+<<<<<<< HEAD
     print("\nEmployee added successfully!\n")
+=======
+    print("\nEmployee added successfully! ✅\n")
+>>>>>>> 50f88b235ba831a7ba8006f67d9d74f424c80343
