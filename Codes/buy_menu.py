@@ -121,8 +121,8 @@ def buy_ticket(user, trains):
         display_trains(trains)  # نمایش قطارها
         save_trains_to_file(trains)
 
-        train_id = input("Enter train ID (or '0' to cancel): ")
-        if train_id.lower() == "0":
+        train_id = input("Enter train ID (or 'back' to cancel): ")
+        if train_id.lower() == "back":
             return
 
         train = next((t for t in trains if t["train_id"] == train_id), None)
