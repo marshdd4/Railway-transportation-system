@@ -1,0 +1,9 @@
+Wallet summary for user sam
+========================================
+Current balance: 9950000 Toman
+
+Transaction History:
+------------------------------
+Type: charge - Amount: 10000000 - Time: 2026-02-19 23:01:02
+Type: purchase - Amount: 20000 - Time: 2026-02-19 23:01:02
+Type: purchase - Amount: 30000 - Time: 2026-02-19 23:01:27

@@ -1,0 +1,9 @@
+***** Train Ticket *****
+Buyer name: sam
+Train name: tondar
+Train ID: TN-1
+Number of tickets: 200
+Price per ticket: 100.0 Toman
+Total amount: 20000 Toman
+Purchase time: 2026-02-19 23:01:02
+************************
