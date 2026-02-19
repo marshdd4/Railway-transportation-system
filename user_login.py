@@ -1,19 +1,17 @@
-from user_sign_up import user_list
+from user_menu import user_list   # اصلاح: لیست کاربران از user_menu گرفته می‌شود
 from buy_menu import buy_menu
 
 def log_in():
+    """ورود کاربر عادی به سیستم"""
     while True:
         try:
             print("** Welcome to login menu **")
             username = input("Enter your username: ")
             password = input("Enter your password: ")
 
-            # --------------------------
-            # ✅ تغییر مهم: تعریف logged_user
             logged_user = None
-            # --------------------------
 
-            # پیدا کردن کاربر
+            # جستجوی کاربر در لیست سراسری
             for i in user_list:
                 if i["user_name"] == username and i["pass_word"] == password:
                     logged_user = i
@@ -24,16 +22,14 @@ def log_in():
 
             print("Login successful ✅")
 
+            # انتخاب بین رفتن به پنل خرید یا بازگشت
             while True:
                 choice = input("Enter 1 to go to buy panel | Enter 0 to return: ")
                 if choice == "0":
                     return
                 elif choice == "1":
-                    # --------------------------
-                    # ✅ تغییر مهم: پاس دادن کاربر به buy_menu
-                    buy_menu(logged_user)
-                    # --------------------------
-                    break
+                    buy_menu(logged_user)   # پس از اتمام خرید، به اینجا برمی‌گردد
+                    return                   # اصلاح: با return از کل تابع خارج می‌شویم
                 else:
                     print("Invalid input. Please try again.")
 
