@@ -1,11 +1,11 @@
 class TrainEmp:
     def __init__(self):
-        self.lines=[]  
-        self.trains=[]
+        self.lines = []
+        self.trains = []
         self.train_id_counter = 1
-        
+
     def add_line(self):
-         while True:
+        while True:
             try:
                 line_name = input("Enter line name: ")
 
@@ -20,7 +20,7 @@ class TrainEmp:
                     raise ValueError("Station number must be an integer.")
                 else:
                     station_number = int(station_numberr)
-                station_list = input("Enter stations' names seperated by space: ").split()
+                station_list = input("Enter stations' names separated by space: ").split()
 
                 if station_number != len(station_list):
                     raise ValueError("Station count does not match list")
@@ -47,8 +47,7 @@ class TrainEmp:
                     break
                 else:
                     print("Invalid input! Please try again.")
-            
-                
+
     def update_info(self):
         if not self.lines:
             print("No lines available!")
@@ -68,8 +67,8 @@ class TrainEmp:
                         raise ValueError("Line not found. Please try again.")
                     else:
                         break
-                print("Current data:", found_line)           
-                allowed_fields = ("name", "origin", "destination","station_number", "station_list")
+                print("Current data:", found_line)
+                allowed_fields = ("name", "origin", "destination", "station_number", "station_list")
                 while True:
                     choice_1 = input("What field do you want to change? (Enter 0 to return) ")
                     if choice_1 == "0":
@@ -98,8 +97,7 @@ class TrainEmp:
                     found_line["station_number"] = new_number
 
                 elif choice_1 == "station_list":
-                    new_list = input(
-                        "Enter new stations, separated by spaces: ").split()
+                    new_list = input("Enter new stations, separated by spaces: ").split()
                     found_line["station_list"] = new_list
                     found_line["station_number"] = len(new_list)
 
@@ -112,16 +110,18 @@ class TrainEmp:
 
             except ValueError as e:
                 print(e)
-     
-            
+
     def delete_line(self):
         if not self.lines:
             print("No lines available!")
             return
         while True:
-            delete_choice = input("Enter the line name to delete(or 0 to return): ")
+            delete_choice = input("Enter the line name to delete (or 0 to return): ")
             if delete_choice == "0":
                 return
+            for train in self.trains:
+                if train["line"] == delete_choice:
+                    self.trains.remove(train)
             for line in self.lines:
                 if line["name"] == delete_choice:
                     self.lines.remove(line)
@@ -129,19 +129,17 @@ class TrainEmp:
                     return
             else:
                 print("Line not found!")
-                     
-             
+
     def show_line_list(self):
         if not self.lines:
             print("No lines available!")
             return
         print("____________Lines List____________")
         for i, line in enumerate(self.lines, start=1):
-            print(f"{i}. {line['name']} | {line['origin']} -> {line['destination']} | Number of stations:{line['station_number']} | stations name:{line['station_list']}")
-        reeturn=input("Enter 0 to return: ")
-        if reeturn=="0": 
+            print(f"{i}. {line['name']} | {line['origin']} -> {line['destination']} | Number of stations: {line['station_number']} | stations name: {line['station_list']}")
+        reeturn = input("Enter 0 to return: ")
+        if reeturn == "0":
             return
-            
 
     def add_train(self):
         if not self.lines:
@@ -175,29 +173,37 @@ class TrainEmp:
                     break
                 except ValueError:
                     print("Invalid input! Please try again.")
-            
+
             while True:
                 try:
                     price = float(input("Enter ticket price: "))
                     break
                 except ValueError:
                     print("Invalid input! Please try again.")
-            
+
             while True:
                 try:
                     capacity = int(input("Enter train capacity: "))
                     break
                 except ValueError:
                     print("Invalid input! Please try again.")
-                
+
             quality = input("Enter train quality: ")
 
             train_id = f"TN-{self.train_id_counter}"
             self.train_id_counter += 1
 
-            train = {"train_id": train_id, "train_name": train_name, "line": line,
-                     "speed": speed, "stop": stop, "quality": quality, "price": price, "capacity": capacity}
-            
+            train = {
+                "train_id": train_id,
+                "train_name": train_name,
+                "line": line,
+                "speed": speed,
+                "stop": stop,
+                "quality": quality,
+                "price": price,
+                "capacity": capacity
+            }
+
             self.trains.append(train)
             print(f"Train added successfully ✅ (ID: {train_id})")
 
@@ -208,16 +214,16 @@ class TrainEmp:
                 elif reeturn == "1":
                     break
                 else:
-                    print("Invalid input! Please try again.")        
+                    print("Invalid input! Please try again.")
 
     def update_train_info(self):
         if not self.trains:
             print("No trains available!")
-            return            
+            return
         while True:
             try:
                 while True:
-                    update_choice = input("Enter the train id to update(or 0 to return): ")
+                    update_choice = input("Enter the train id to update (or 0 to return): ")
                     if update_choice == "0":
                         return
                     found_train = None
@@ -230,7 +236,7 @@ class TrainEmp:
                     else:
                         break
                 print("Current data:")
-                print(f"Train name: {found_train["train_name"]} | Train line: {found_train["line"]} | Train speed: {found_train["speed"]} km/h\nStop duration in each station: {found_train["stop"]} minutes | Train quality: {found_train["quality"]} | Ticket price: {found_train["price"]}$ | Train capacity: {found_train["capacity"]} passengers")
+                print(f"Train name: {found_train['train_name']} | Train line: {found_train['line']} | Train speed: {found_train['speed']} km/h\nStop duration in each station: {found_train['stop']} minutes | Train quality: {found_train['quality']} | Ticket price: {found_train['price']} Toman | Train capacity: {found_train['capacity']} passengers")
                 allowed_fields = ("train_name", "line", "speed", "stop", "quality", "price", "capacity")
                 while True:
                     choice_1 = input("What field do you want to change? (Enter 0 to return) ")
@@ -240,7 +246,7 @@ class TrainEmp:
                         raise ValueError("Invalid field name. Please try again.")
                     else:
                         break
-                    
+
                 if choice_1 == "train_name":
                     new_name = input("Enter new name for the train: ")
                     found_train["train_name"] = new_name
@@ -301,23 +307,22 @@ class TrainEmp:
                             print("Invalid capacity! Please enter a number.")
             except ValueError as e:
                 print(e)
-            
+
     def delete_train(self):
         if not self.trains:
             print("No trains available!")
             return
         while True:
-            delete_choice = input("Enter the train id to delete(or 0 to return): ")    
+            delete_choice = input("Enter the train id to delete (or 0 to return): ")
             if delete_choice == "0":
                 return
             for i in self.trains:
-                if i["train_id"]==delete_choice:
+                if i["train_id"] == delete_choice:
                     self.trains.remove(i)
                     print("Train deleted successfully ✅")
                     return
             else:
                 print("Train not found")
-
 
     def show_train_list(self):
         if not self.trains:
@@ -325,7 +330,10 @@ class TrainEmp:
             return
         print("____________Trains List____________")
         for i, train in enumerate(self.trains, start=1):
-            print(f"Train NO{i}:  Name: {train["train_name"]} | Line: {train["line"]} | Speed: {train["speed"]} km/h\nStop duration in each station: {train["stop"]} minutes | Quality: {train["quality"]} | Ticket price: {train["price"]}$ | Capacity: {train["capacity"]} passengers")
-        reeturn=input("Enter 0 to return: ")
-        if reeturn=="0":
+            print(f"Train NO{i}:  Name: {train['train_name']} | Line: {train['line']} | Speed: {train['speed']} km/h\nStop duration in each station: {train['stop']} minutes | Quality: {train['quality']} | Ticket price: {train['price']} Toman | Capacity: {train['capacity']} passengers")
+        reeturn = input("Enter 0 to return: ")
+        if reeturn == "0":
             return
+
+# ایجاد نمونه سراسری که در سایر ماژول‌ها استفاده می‌شود
+train_system = TrainEmp()

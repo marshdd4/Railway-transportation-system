@@ -1,58 +1,88 @@
+import re
+
 emp = []
 
+# ==============================
+# Email Validation
+# ==============================
+def validate_email(email):
+    pattern = r'^(?=.{6,254}$)[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$'
+    return re.fullmatch(pattern, email) is not None
+
+
+# ==============================
+# Username Validation
+# ==============================
+def validate_username(username):
+    pattern = r'^[A-Za-z]{3,}$'
+    return re.fullmatch(pattern, username) is not None
+
+
+# ==============================
+# Password Validation
+# ==============================
+def validate_password(password):
+    pattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4}$'
+    return re.fullmatch(pattern, password) is not None
+
+
+# ==============================
+# Add Employee (Step-by-Step)
+# ==============================
 def add_emp():
-    print('Please add an employee')
+    print("\nPlease add an employee\n")
+
+    # -------- Name --------
+    name = input("First name: ").strip()
+    last_name = input("Last name: ").strip()
+
+    # -------- Username --------
     while True:
-        try:
-            name = input("First name: ")
-            last_name = input("Last name: ")
-            user_name = input("Username: ")
-            pass_word = input("Password: ")
-            email = input("Email: ")
+        user_name = input("Username: ").strip()
 
-            # username must contain only letters
-            if not user_name.isalpha():
-                raise ValueError("Username must contain only letters.")
+        if not validate_username(user_name):
+            print("Username must contain only letters and be at least 3 characters.")
+            continue
 
-            # password must be exactly 4 characters
-            if len(pass_word) != 4:
-                raise ValueError("Password must be exactly 4 characters.")
+        # duplicate check
+        if any(e["user_name"] == user_name for e in emp):
+            print("Username already exists.")
+            continue
 
-            # password must contain letter and number
-            has_letter = False
-            has_number = False
-            for ch in pass_word:
-                if ch.isalpha():
-                    has_letter = True
-                if ch.isdigit():
-                    has_number = True
-            if not has_letter or not has_number:
-                raise ValueError("Password must contain letters and numbers.")
+        break
 
-            # simple email validation
-            if "@" not in email or "." not in email:
-                raise ValueError("Invalid email format.")
+    # -------- Password --------
+    while True:
+        pass_word = input("Password: ").strip()
 
-            emp_info = {"name": name, "last_name": last_name, "user_name": user_name, "pass_word": pass_word, "email": email}
+        if not validate_password(pass_word):
+            print("Password must be exactly 4 characters and contain letters and numbers.")
+            continue
 
-            for i in emp:
-                if i["user_name"] == emp_info["user_name"]:
-                    raise ValueError("Username already exists.")
-                if i["email"] == emp_info["email"]:
-                    raise ValueError("Email already exists.")
+        break   # ✅ فقط اگر پسورد درست بود میره مرحله بعد
 
-            print("Employee added successfully! ✅")
-            emp.append(emp_info)
-            return
+    # -------- Email --------
+    while True:
+        email = input("Email: ").strip()
 
-        except ValueError as e:
-            print(e)
+        if not validate_email(email):
+            print("Invalid email format.")
+            continue
 
-        while True:
-            reeturn = input("Enter 0 to return / Enter 1 to try again: ")
-            if reeturn == "0":
-                return
-            elif reeturn == "1":
-                break
-            else:
-                print("Invalid input! Please try again.")
+        if any(e["email"] == email for e in emp):
+            print("Email already exists.")
+            continue
+
+        break
+
+    # -------- Save --------
+    emp_info = {
+        "name": name,
+        "last_name": last_name,
+        "user_name": user_name,
+        "pass_word": pass_word,
+        "email": email
+    }
+
+    emp.append(emp_info)
+    print("\nEmployee added successfully! ✅\n")
