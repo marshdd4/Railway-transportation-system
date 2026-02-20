@@ -1,16 +1,16 @@
 from mangagement_panel import mang_pnl
 
 def admin():
-    chek = ("h","h")
+    check = ("grp5","123456")
     while True:
         try:
             print("** Welcome Admin **")
             username=input("Enter your username: ")
             password= input("Ente your password: ")
             #for i in chek:
-            if chek[0]!= username:
+            if check[0]!= username:
                 raise ValueError("Username is wrong!")
-            if chek[1]!=password:
+            if check[1]!=password:
                 raise ValueError("Password is wrong!")
             print("Log in successful!") 
             mang_pnl()
