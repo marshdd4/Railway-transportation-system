@@ -8,7 +8,7 @@ class TrainEmp:
         while True:
             try:
                 line_name = input("Enter line name: ")
-
+                #بررسی نام خط تکراری
                 for i in self.lines:
                     if i["name"] == line_name:
                         raise ValueError("Name already exists")
@@ -24,7 +24,7 @@ class TrainEmp:
 
                 if station_number != len(station_list):
                     raise ValueError("Station count does not match list")
-
+                #ذخیره اطلاعات خط
                 line = {
                     "name": line_name,
                     "origin": origin,
@@ -38,7 +38,7 @@ class TrainEmp:
 
             except ValueError as e:
                 print(e)
-
+            #این قسمت کد به منظور بازگست به منو قبل هست و زیاد تکرار می شود
             while True:
                 reeturn = input("Enter 0 to return / Enter 1 to add another: ")
                 if reeturn == "0":
@@ -49,6 +49,7 @@ class TrainEmp:
                     print("Invalid input! Please try again.")
 
     def update_info(self):
+        # قبل از آپدیت خط چک کن اصلا خط داریم یا نه
         if not self.lines:
             print("No lines available!")
             return
@@ -77,7 +78,7 @@ class TrainEmp:
                         raise ValueError("Invalid field name. Please try again.")
                     else:
                         break
-
+                # بررسی مقدار مورد نظر برای آپدیت
                 if choice_1 == "name":
                     new_name = input("Enter the new name: ")
                     for line in self.lines:
@@ -112,6 +113,7 @@ class TrainEmp:
                 print(e)
 
     def delete_line(self):
+        # قبل از دیلیت خط چک کن اصلا خط داریم یا نه
         if not self.lines:
             print("No lines available!")
             return
@@ -119,6 +121,7 @@ class TrainEmp:
             delete_choice = input("Enter the line name to delete (or 0 to return): ")
             if delete_choice == "0":
                 return
+            # علاوه بر حذف خط باید فطارهای موجود در این خط هم پاک شوند
             for train in self.trains:
                 if train["line"] == delete_choice:
                     self.trains.remove(train)
@@ -131,10 +134,11 @@ class TrainEmp:
                 print("Line not found!")
 
     def show_line_list(self):
+        # قبل از نشان دادن لیست خط چک کن اصلا خط داریم یا نه
         if not self.lines:
             print("No lines available!")
             return
-        print("____________Lines List____________")
+        print("============== Lines List ==============")
         for i, line in enumerate(self.lines, start=1):
             print(f"{i}. {line['name']} | {line['origin']} -> {line['destination']} | Number of stations: {line['station_number']} | stations name: {line['station_list']}")
         reeturn = input("Enter 0 to return: ")
@@ -142,6 +146,7 @@ class TrainEmp:
             return
 
     def add_train(self):
+        # قبل ازینکه اجازه افزودن قطار بدهد چک کن اصلا خطی موجود هست یا نه
         if not self.lines:
             print("No lines available! Please create a line first.")
             return
@@ -189,10 +194,10 @@ class TrainEmp:
                     print("Invalid input! Please try again.")
 
             quality = input("Enter train quality: ")
-
+            # این کانتر شمارنده برای آیدی قطار به وجود آمده است
             train_id = f"TN-{self.train_id_counter}"
             self.train_id_counter += 1
-
+            # ذخیره اطلاعات قظار
             train = {
                 "train_id": train_id,
                 "train_name": train_name,
@@ -217,6 +222,7 @@ class TrainEmp:
                     print("Invalid input! Please try again.")
 
     def update_train_info(self):
+        # قبل از آپدیت قطار چک کن اصلا خط داریم یا نه
         if not self.trains:
             print("No trains available!")
             return
@@ -246,7 +252,7 @@ class TrainEmp:
                         raise ValueError("Invalid field name. Please try again.")
                     else:
                         break
-
+                # بررسی مقدار مورد نظر برای آپدیت
                 if choice_1 == "train_name":
                     new_name = input("Enter new name for the train: ")
                     found_train["train_name"] = new_name
@@ -309,6 +315,7 @@ class TrainEmp:
                 print(e)
 
     def delete_train(self):
+        # قبل از دیلیت قطار چک کن اصلا خط داریم یا نه
         if not self.trains:
             print("No trains available!")
             return
@@ -325,10 +332,11 @@ class TrainEmp:
                 print("Train not found")
 
     def show_train_list(self):
+        # قبل از نشان دادن لیست فطار چک کن اصلا خط داریم یا نه
         if not self.trains:
             print("No trains available!")
             return
-        print("____________Trains List____________")
+        print("==============Trains List==============")
         for i, train in enumerate(self.trains, start=1):
             print(f"Train NO{i}:  Name: {train['train_name']} | Line: {train['line']} | Speed: {train['speed']} km/h\nStop duration in each station: {train['stop']} minutes | Quality: {train['quality']} | Ticket price: {train['price']}$ | Capacity: {train['capacity']} passengers")
         reeturn = input("Enter 0 to return: ")
